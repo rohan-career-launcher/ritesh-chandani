@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <limits.h>
+ 
+// Find the minimum sum subarray of a given size `k`
+void findSubarray(int arr[], int n, int k)
+{
+    // base case
+    if (n == 0 || n <= k) {
+        return;
+    }
+ 
+    // stores the sum of elements in the current window
+    int window_sum = 0;
+ 
+    // stores the sum of minimum sum subarray found so far
+    int min_window = INT_MAX;
+ 
+    // stores ending index of the minimum sum subarray found so far
+    int last = 0;
+ 
+    for (int i = 0; i < n; i++)
+    {
+        // add the current element to the window
+        window_sum += arr[i];
+ 
+        // if the window size is more than equal to `k`
+        if (i + 1 >= k)
+        {
+            // update the minimum sum window
+            if (min_window > window_sum)
+            {
+                min_window = window_sum;
+                last = i;
+            }
+ 
+            // remove a leftmost element from the window
+            window_sum -= arr[i + 1 - k];
+        }
+    }
+ 
+    printf("The minimum sum subarray is (%d, %d)", last - k + 1, last);
+}
+ 
+int main(void)
+{
+    int arr[] = { 10, 4, 2, 5, 6, 3, 8, 1 };
+    int k = 3;
+ 
+    int n = sizeof(arr)/sizeof(arr[0]);
+ 
+    findSubarray(arr, n, k);
+ 
+    return 0;
+}
